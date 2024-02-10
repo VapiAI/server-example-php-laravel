@@ -35,7 +35,8 @@ class WebhookService
       case 'hang':
         return $this->handleHang($payload);
       default:
-        throw new \Exception('Unhandled message type');
+        // ignore other types of messages
+
     }
   }
 
