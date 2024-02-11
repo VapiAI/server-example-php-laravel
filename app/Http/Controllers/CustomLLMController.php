@@ -12,7 +12,31 @@ class CustomLLMController extends Controller
 
     public function create_basic(Request $request)
     {
-        return 'custom_llm_basic';
+        try {
+
+            $data = $request->json()->all();
+            $messages = $data['messages'];
+
+            $response = [
+                'id' => 'chatcmpl-8mcLf78g0quztp4BMtwd3hEj58Uof',
+                'object' => 'chat.completion',
+                'created' => time(),
+                'model' => 'gpt-3.5-turbo-0613',
+                'system_fingerprint' => null,
+                'choices' => [
+                    [
+                        'index' => 0,
+                        'delta' => ['content' => $messages[count($messages) - 1]['content'] ?? ''],
+                        'logprobs' => null,
+                        'finish_reason' => 'stop',
+                    ],
+                ],
+            ];
+
+            return response()->json($response, 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
 
